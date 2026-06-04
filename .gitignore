@@ -1,0 +1,25 @@
+# Dependency directories
+node_modules/
+
+# Credentials and sensitive config
+credentials.json
+google_sheets_config.json
+
+# Environment variables
+.env
+.env.local
+
+# Local mock database or cached data
+local_sheets_mock.json
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Log files
+*.log

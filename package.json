@@ -1,0 +1,17 @@
+{
+  "name": "hangeorum-care-backend",
+  "version": "1.0.0",
+  "description": "Arduino Sensor Integration with Adaptive AI-Driven Google Sheets Database",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "ws": "^8.17.0",
+    "node-fetch": "^2.7.0",
+    "googleapis": "^140.0.0"
+  },
+  "private": true
+}

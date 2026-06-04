@@ -1,0 +1,387 @@
+<!DOCTYPE html><html class="light" lang="ko" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Admin Console - Dashboard</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "on-secondary-container": "#54647a",
+                    "surface-dim": "#d8dadc",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#da3437",
+                    "on-tertiary-fixed-variant": "#00504e",
+                    "secondary-fixed-dim": "#b7c8e1",
+                    "tertiary": "#006765",
+                    "surface-container-lowest": "#ffffff",
+                    "secondary-fixed": "#d3e4fe",
+                    "secondary": "#505f76",
+                    "surface-container-highest": "#e0e3e5",
+                    "surface": "#f7f9fb",
+                    "surface-container": "#eceef0",
+                    "on-primary": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "on-tertiary-fixed": "#00201f",
+                    "on-background": "#191c1e",
+                    "tertiary-container": "#008280",
+                    "inverse-surface": "#2d3133",
+                    "on-surface": "#191c1e",
+                    "on-error": "#ffffff",
+                    "outline": "#8f6f6d",
+                    "secondary-container": "#d0e1fb",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e0e3e5",
+                    "outline-variant": "#e4beba",
+                    "on-secondary-fixed": "#0b1c30",
+                    "on-surface-variant": "#5b403e",
+                    "on-tertiary-container": "#f3fffd",
+                    "on-primary-fixed-variant": "#930013",
+                    "surface-tint": "#b91a24",
+                    "primary-fixed": "#ffdad7",
+                    "on-primary-fixed": "#410004",
+                    "tertiary-fixed": "#87f4f0",
+                    "on-primary-container": "#fffbff",
+                    "inverse-primary": "#ffb3ad",
+                    "surface-container-low": "#f2f4f6",
+                    "tertiary-fixed-dim": "#69d8d4",
+                    "primary": "#b61722",
+                    "on-secondary-fixed-variant": "#38485d",
+                    "primary-fixed-dim": "#ffb3ad",
+                    "on-error-container": "#93000a",
+                    "inverse-on-surface": "#eff1f3",
+                    "background": "#f7f9fb",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-bright": "#f7f9fb"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "unit": "8px",
+                    "gutter": "24px",
+                    "margin": "32px",
+                    "container-max": "1440px"
+            },
+            "fontFamily": {
+                    "headline-xl": ["Inter"],
+                    "headline-lg": ["Inter"],
+                    "headline-md": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-sm": ["Inter"],
+                    "label-md": ["Inter"],
+                    "body-lg": ["Inter"]
+            },
+            "fontSize": {
+                    "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                    "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                    "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}],
+                    "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                    "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}],
+                    "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                    "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+            overflow: hidden; /* Prevent body scrolling */
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .circular-progress {
+            position: relative;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .circular-progress::before {
+            content: "";
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-color: white;
+        }
+        .progress-value {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface h-screen flex overflow-hidden">
+<!-- SideNavBar -->
+<aside class="hidden md:flex w-[280px] h-screen flex-col p-unit bg-surface-container-low dark:bg-surface-container-lowest border-r border-outline-variant dark:border-outline shrink-0">
+<nav class="flex-1 mt-6 space-y-1"><a class="flex items-center gap-3 px-4 py-3 text-secondary font-medium bg-surface-container-high rounded-lg transition-all active:scale-95" href="#"><span class="material-symbols-outlined">home</span><span class="font-label-md text-label-md">홈</span></a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-medium hover:bg-surface-container-high rounded-lg transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">analytics</span>
+<span class="font-label-md text-label-md">통계</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-medium hover:bg-surface-container-high rounded-lg transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">description</span>
+<span class="font-label-md text-label-md">보고서</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-medium hover:bg-surface-container-high rounded-lg transition-all active:scale-95" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="font-label-md text-label-md">설정</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-outline-variant">
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-medium hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="font-label-md text-label-md">도움말</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-secondary font-medium hover:bg-surface-container-high rounded-lg transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-label-md text-label-md">로그아웃</span>
+</a>
+</div>
+</aside>
+<!-- Main Area -->
+<div class="flex-1 flex flex-col h-screen overflow-hidden">
+<!-- TopNavBar -->
+<header class="w-full h-16 bg-surface border-b border-outline-variant flex justify-between items-center px-margin shrink-0 z-40">
+<div class="flex items-center gap-6">
+<span class="font-headline-md text-headline-md font-bold text-primary">한걸음케어</span>
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-secondary">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-body-md w-64 focus:ring-2 focus:ring-primary transition-all" placeholder="Search data..." type="text">
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-secondary">notifications</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center rounded-full hover:bg-surface-container-low transition-colors cursor-pointer active:opacity-80">
+<span class="material-symbols-outlined text-secondary">settings</span>
+</button>
+<div class="w-8 h-8 rounded-full overflow-hidden bg-surface-container-high border border-outline-variant cursor-pointer">
+<img alt="User profile" class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIhSlV2qhd04H50hxF0WDNpywDnQ0v14KtiI7iJxRR_96k0sKuLrQpB4mGxN2uWKFoahtgy2YWUrJZ0iwQ3sCeHrDzLOT634Kzqp7KiZGR7ZL9zCdnsfunXXU4Dr3H-GaTIT33P1qcZfLtFpsKGS0eOb2odvovyFSeN-1BwmnHUX7F9LGnSXX96HwRTgrcfjWUlgNAPAJgyjnAPrwnzkQm3FffRjCRCrjgqS2f5Z2yNDG_FSPbU_wdOpIyi26ywh3MTUd6VNmM2VLV">
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas Wrapper (Scrollable area) -->
+<main class="flex-1 overflow-y-auto bg-background">
+<section class="p-margin max-w-container-max mx-auto w-full min-h-full flex flex-col">
+<div class="flex justify-between items-center mb-8 shrink-0">
+<div>
+<h1 class="font-headline-xl text-headline-xl text-on-background">이용자 현항</h1>
+<p class="text-body-lg text-secondary mt-1">Real-time status of all managed nodes.</p>
+</div>
+<div class="flex gap-2 justify-end"><button class="flex items-center gap-2 px-6 py-2 bg-primary text-white rounded-lg font-label-md text-label-md shadow-sm hover:opacity-90 transition-all active:scale-95"><span class="material-symbols-outlined text-[18px]">add</span>등록</button><button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-secondary hover:bg-surface-container-high transition-colors active:scale-95"><span class="material-symbols-outlined text-[18px]">sort</span>정렬</button><button class="flex items-center gap-2 px-4 py-2 border border-outline-variant rounded-lg font-label-md text-label-md text-secondary hover:bg-surface-container-high transition-colors active:scale-95"><span class="material-symbols-outlined text-[18px]">filter_list</span>필터링</button></div>
+</div>
+<!-- Bento Grid -->
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-gutter mb-margin">
+<!-- Card 1 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7721</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 2m ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+<!-- Card 2 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7722</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#ef4444]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#ef4444 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: Just now</span><span class="text-label-sm font-bold text-[#ef4444]">위험</span></div>
+</div>
+<!-- Card 3 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7723</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 5m ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+<!-- Card 4 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7724</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#f59e0b]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#f59e0b 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 12m ago</span><span class="text-label-sm font-bold text-[#f59e0b]">경고</span></div>
+</div>
+<!-- Row 2 Card 5 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7725</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#ef4444]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#ef4444 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 1m ago</span><span class="text-label-sm font-bold text-[#ef4444]">위험</span></div>
+</div>
+<!-- Row 2 Card 6 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7726</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#ef4444]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#ef4444 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 8m ago</span><span class="text-label-sm font-bold text-[#ef4444]">위험</span></div>
+</div>
+<!-- Row 2 Card 7 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7727</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 4m ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+<!-- Row 2 Card 8 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">김ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7728</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#ef4444]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#ef4444 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 15m ago</span><span class="text-label-sm font-bold text-[#ef4444]">위험</span></div>
+</div>
+<!-- Row 3 Card 9 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">이ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7729</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 20m ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+<!-- Row 3 Card 10 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">박ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7730</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#f59e0b]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#f59e0b 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 1h ago</span><span class="text-label-sm font-bold text-[#f59e0b]">경고</span></div>
+</div>
+<!-- Row 3 Card 11 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">최ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7731</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 3h ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+<!-- Row 3 Card 12 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">정ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7732</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#ef4444]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#ef4444 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 12m ago</span><span class="text-label-sm font-bold text-[#ef4444]">위험</span></div>
+</div>
+<!-- Row 4 Card 13 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">강ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7733</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 45m ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+<!-- Row 4 Card 14 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">조ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7734</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 5m ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+<!-- Row 4 Card 15 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">윤ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7735</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#ef4444]">error</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#ef4444 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: Just now</span><span class="text-label-sm font-bold text-[#ef4444]">위험</span></div>
+</div>
+<!-- Row 4 Card 16 -->
+<div class="bg-white p-6 rounded-xl border border-outline-variant shadow-[0px_4px_12px_rgba(0,0,0,0.03)] hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] transition-all group">
+<div class="flex justify-between items-start mb-6">
+<div><h3 class="font-headline-md text-headline-md text-on-surface">장ㅁㅁ</h3><p class="text-label-sm text-secondary uppercase tracking-wider mt-1">Unit ID: #7736</p></div>
+<span class="material-symbols-outlined group-hover:scale-110 transition-transform text-[#10b981]">verified_user</span>
+</div>
+<div class="flex flex-col items-center justify-center py-4">
+<div class="circular-progress" style="background: conic-gradient(#10b981 360deg, #e2e8f0 0deg);"></div>
+</div>
+<div class="mt-6 pt-4 border-t border-outline-variant flex justify-between"><span class="text-label-sm text-secondary">Last Used: 2h ago</span><span class="text-label-sm font-bold text-[#10b981]">양호</span></div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="mt-auto p-8 border-t border-outline-variant text-center shrink-0">
+<p class="text-label-sm text-secondary">© 2024 Admin Console Management Suite. Built for professional reliability.</p>
+</footer>
+</main>
+</div>
+<script>
+    // Keeping simple UI interactions if needed
+    document.querySelectorAll('.circular-progress').forEach(progress => {
+        progress.addEventListener('click', () => {
+            progress.parentElement.classList.add('scale-105');
+            setTimeout(() => progress.parentElement.classList.remove('scale-105'), 200);
+        });
+    });
+</script>
+
+
+</body></html>

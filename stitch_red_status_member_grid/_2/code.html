@@ -1,0 +1,446 @@
+<!DOCTYPE html><html class="light" lang="ko" style=""><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<style>
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #e2e8f0; border-radius: 10px; }
+        .chart-bar:hover { filter: brightness(0.9); transition: all 0.2s; }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              "colors": {
+                      "primary-fixed": "#ffdad7",
+                      "on-surface": "#191c1e",
+                      "surface-bright": "#f7f9fb",
+                      "inverse-primary": "#ffb3ad",
+                      "on-secondary": "#ffffff",
+                      "background": "#f7f9fb",
+                      "tertiary": "#006765",
+                      "surface": "#f7f9fb",
+                      "outline-variant": "#e4beba",
+                      "on-tertiary-container": "#f3fffd",
+                      "on-background": "#191c1e",
+                      "surface-dim": "#d8dadc",
+                      "surface-container-low": "#f2f4f6",
+                      "primary": "#b61722",
+                      "on-tertiary": "#ffffff",
+                      "inverse-on-surface": "#eff1f3",
+                      "error": "#ba1a1a",
+                      "surface-container-high": "#e6e8ea",
+                      "inverse-surface": "#2d3133",
+                      "primary-fixed-dim": "#ffb3ad",
+                      "on-secondary-container": "#54647a",
+                      "surface-container": "#eceef0",
+                      "on-secondary-fixed": "#0b1c30",
+                      "surface-container-lowest": "#ffffff",
+                      "on-tertiary-fixed": "#00201f",
+                      "on-secondary-fixed-variant": "#38485d",
+                      "outline": "#8f6f6d",
+                      "tertiary-fixed": "#87f4f0",
+                      "error-container": "#ffdad6",
+                      "on-primary-fixed-variant": "#930013",
+                      "on-primary-fixed": "#410004",
+                      "surface-tint": "#b91a24",
+                      "secondary": "#505f76",
+                      "on-error-container": "#93000a",
+                      "on-error": "#ffffff",
+                      "on-tertiary-fixed-variant": "#00504e",
+                      "on-surface-variant": "#5b403e",
+                      "on-primary-container": "#fffbff",
+                      "tertiary-fixed-dim": "#69d8d4",
+                      "tertiary-container": "#008280",
+                      "secondary-fixed-dim": "#b7c8e1",
+                      "secondary-fixed": "#d3e4fe",
+                      "primary-container": "#da3437",
+                      "surface-variant": "#e0e3e5",
+                      "on-primary": "#ffffff",
+                      "surface-container-highest": "#e0e3e5",
+                      "secondary-container": "#d0e1fb"
+              },
+              "borderRadius": {
+                      "DEFAULT": "0.125rem",
+                      "lg": "0.25rem",
+                      "xl": "0.5rem",
+                      "full": "0.75rem"
+              },
+              "spacing": {
+                      "unit": "8px",
+                      "gutter": "24px",
+                      "container-max": "1440px",
+                      "margin": "32px"
+              },
+              "fontFamily": {
+                      "label-sm": ["Inter"],
+                      "headline-xl": ["Inter"],
+                      "body-lg": ["Inter"],
+                      "headline-lg": ["Inter"],
+                      "body-md": ["Inter"],
+                      "label-md": ["Inter"],
+                      "headline-md": ["Inter"]
+              },
+              "fontSize": {
+                      "label-sm": ["11px", {"lineHeight": "14px", "fontWeight": "600"}],
+                      "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                      "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "400"}],
+                      "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+                      "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+                      "label-md": ["12px", {"lineHeight": "16px", "letterSpacing": "0.05em", "fontWeight": "500"}],
+                      "headline-md": ["20px", {"lineHeight": "28px", "fontWeight": "600"}]
+              }
+            },
+          },
+        }
+      </script>
+</head>
+<body class="bg-background text-on-surface">
+<!-- TopNavBar -->
+<header class="bg-surface-container-lowest flex justify-between items-center h-16 px-gutter w-full sticky top-0 z-50 border-b border-outline-variant">
+<div class="flex items-center gap-4">
+<span class="font-headline-lg text-headline-lg font-bold text-primary">한걸음케어</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center bg-surface-container h-10 px-4 rounded-full border border-outline-variant">
+<span class="material-symbols-outlined text-on-surface-variant mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-md w-64" placeholder="사용자 검색..." type="text">
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container p-2 rounded-full transition-colors">notifications</span>
+<span class="material-symbols-outlined text-primary cursor-pointer hover:bg-surface-container p-2 rounded-full transition-colors">account_circle</span>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- SideNavBar -->
+<aside class="fixed left-0 top-16 h-[calc(100vh-64px)] w-[280px] bg-surface-container-low border-r border-outline-variant flex flex-col p-4 z-40">
+<div class="mb-8 px-4">
+<h2 class="font-headline-md text-headline-md font-bold text-on-surface">관리자 패널</h2>
+<p class="text-label-md font-label-md text-on-surface-variant">헬스케어 시스템</p>
+</div>
+<nav class="flex flex-col space-y-1">
+<div class="group flex items-center px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined mr-3">home</span>
+<span class="font-label-md text-label-md">홈</span>
+</div>
+<div class="group flex items-center px-4 py-3 cursor-pointer bg-primary-fixed text-on-primary-fixed font-bold rounded-lg">
+<span class="material-symbols-outlined mr-3 text-primary">dashboard</span>
+<span class="font-label-md text-label-md">대시보드</span>
+</div>
+<div class="group flex items-center px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined mr-3">analytics</span>
+<span class="font-label-md text-label-md">통계</span>
+</div>
+<div class="group flex items-center px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined mr-3">insert_drive_file</span>
+<span class="font-label-md text-label-md">보고서</span>
+</div>
+<div class="group flex items-center px-4 py-3 cursor-pointer text-on-surface-variant hover:bg-surface-container-high transition-all">
+<span class="material-symbols-outlined mr-3">settings</span>
+<span class="font-label-md text-label-md">설정</span>
+</div>
+</nav>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-[280px] w-full p-margin max-w-container-max mx-auto">
+<!-- Header Breadcrumb -->
+<div class="flex items-center gap-2 mb-8 text-on-surface-variant">
+<span class="font-label-md text-label-md cursor-pointer hover:text-primary">대시보드</span>
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+<span class="font-label-md text-label-md text-primary font-bold">사용자 상세 정보</span>
+</div>
+<div class="grid grid-cols-12 gap-gutter">
+<!-- Left Column (Profile Section) -->
+<div class="col-span-12 lg:col-span-4 space-y-gutter">
+<!-- Profile Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-gutter shadow-sm">
+<div class="flex flex-col items-center text-center">
+<div class="w-32 h-32 rounded-full overflow-hidden border-4 border-surface-container mb-4 relative">
+<img class="w-full h-full object-cover" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDx21ld1EfW3nwvvrKo7Js_wVJ-yoa-6UJpIzPNcBzjxduDWmvUaZ96mzJRWWUt81mDGYzvYDK6w_Hl2z4dKadOp9qbLbJnYVbvJfUjqQUcrogWYLJ_llvuDwwWNPdq9MQYHBavIvyjJI9vqGQ5gCT84fb-eVASzh3y660QK8uvW6BOibL95REGYzE8xT7sXypxMXmVopx4zRXjR5dHhPCt9omC4vn2uQnf5-Jbow7eMp610LFZUkyLIaGVVLEUSDYqqpm5V175iTKN" alt="User profile icon">
+</div>
+<h3 class="font-headline-lg text-headline-lg font-bold text-on-surface">김ㅁㅁ</h3>
+<p class="text-body-md font-body-md text-on-surface-variant mb-6">75세 · 남성</p>
+<div class="w-full space-y-4 text-left">
+<div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low border border-outline-variant">
+<span class="material-symbols-outlined text-primary">location_on</span>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">주소</p>
+<p class="text-body-md font-body-md text-on-surface">서울특별시 성북구 화랑로 ...</p>
+</div>
+</div>
+<div class="flex items-start gap-3 p-3 rounded-lg bg-surface-container-low border border-outline-variant">
+<span class="material-symbols-outlined text-primary">call</span>
+<div>
+<p class="text-label-sm font-label-sm text-on-surface-variant">연락처</p>
+<p class="text-body-md font-body-md text-on-surface">010-1234-5678</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Today's Status Indicator -->
+<div class="mt-gutter p-4 rounded-xl bg-error-container border border-error/20 flex items-center justify-between">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-error font-bold" style="font-variation-settings: 'FILL' 1;">warning</span>
+<span class="font-headline-md text-headline-md text-error">어제의 상태</span>
+</div>
+<span class="px-3 py-1 bg-error text-on-error font-label-md text-label-md rounded-full">위험</span>
+</div>
+</div>
+<!-- Medical Info Card -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6">
+<h4 class="font-headline-md text-headline-md mb-4 border-b border-outline-variant pb-2">건강 참고사항</h4>
+<ul class="space-y-3">
+<li class="flex items-center gap-2 text-body-md font-body-md">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                                고혈압 관리 대상자
+                            </li>
+<li class="flex items-center gap-2 text-body-md font-body-md">
+<div class="w-1.5 h-1.5 rounded-full bg-primary"></div>
+                                당뇨 (식단 조절 중)
+                            </li>
+<li class="flex items-center gap-2 text-body-md font-body-md text-on-surface-variant italic">
+                                * 매일 오전 10시 투약 확인 필요
+                            </li>
+</ul>
+</div>
+</div>
+<!-- Right Column (Activity Section) -->
+<div class="col-span-12 lg:col-span-8 space-y-gutter">
+<!-- Top Row: Summary and Date List -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-gutter">
+<!-- Usage Date List -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant flex flex-col h-[320px]">
+<div class="p-4 border-b border-outline-variant flex justify-between items-center">
+<h4 class="font-headline-md text-headline-md">최근 이용 기록</h4>
+<span class="material-symbols-outlined text-on-surface-variant cursor-pointer">calendar_today</span>
+</div>
+<div class="overflow-y-auto custom-scrollbar p-2 flex-grow">
+<table class="w-full text-left">
+<tbody class="divide-y divide-outline-variant/30"><tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-md text-body-md">2023.11.24</td>
+<td class="py-3 px-4 text-right"><span class="px-2 py-0.5 bg-green-100 text-green-800 rounded text-label-sm">정상</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-3 px-4 font-body-md text-body-md">2023.11.23</td>
+<td class="py-3 px-4 text-right"><span class="px-2 py-0.5 bg-error-container text-on-error-container rounded text-label-sm">위험</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-md text-body-md">2023.11.22</td>
+<td class="py-3 px-4 text-right"><span class="px-2 py-0.5 bg-green-100 text-green-800 rounded text-label-sm">정상</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-3 px-4 font-body-md text-body-md">2023.11.21</td>
+<td class="py-3 px-4 text-right"><span class="px-2 py-0.5 bg-[#f59e0b] text-white rounded text-label-sm">경고</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors">
+<td class="py-3 px-4 font-body-md text-body-md">2023.11.20</td>
+<td class="py-3 px-4 text-right"><span class="px-2 py-0.5 bg-green-100 text-green-800 rounded text-label-sm">정상</span></td>
+</tr>
+<tr class="hover:bg-surface-container-low transition-colors bg-surface-container-lowest">
+<td class="py-3 px-4 font-body-md text-body-md">2023.11.19</td>
+<td class="py-3 px-4 text-right"><span class="px-2 py-0.5 bg-green-100 text-green-800 rounded text-label-sm">정상</span></td>
+</tr></tbody>
+</table>
+</div>
+</div>
+<!-- Status Summary Indicators -->
+<div class="space-y-4">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex items-center justify-between group hover:border-green-500 transition-all cursor-default">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-green-100 flex items-center justify-center text-green-600">
+<span class="material-symbols-outlined">check_circle</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">정상 일수</p>
+<h4 class="font-headline-xl text-headline-xl">18</h4>
+</div>
+</div>
+<span class="text-green-600 font-bold text-headline-md">정상</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex items-center justify-between group hover:border-secondary transition-all cursor-default">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-secondary-container flex items-center justify-center text-on-secondary-container" style="background-color: rgb(254, 243, 199);">
+<span class="material-symbols-outlined" style="color: rgb(245, 158, 11);">warning</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">경고 발생</p>
+<h4 class="font-headline-xl text-headline-xl">5</h4>
+</div>
+</div>
+<span class="text-secondary font-bold text-headline-md">경고</span>
+</div>
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-6 flex items-center justify-between group hover:border-primary transition-all cursor-default shadow-[0px_4px_12px_rgba(182,23,34,0.1)]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-primary-fixed flex items-center justify-center text-on-primary-fixed">
+<span class="material-symbols-outlined">report</span>
+</div>
+<div>
+<p class="font-label-md text-label-md text-on-surface-variant uppercase tracking-wider">위험 감지</p>
+<h4 class="font-headline-xl text-headline-xl">2</h4>
+</div>
+</div>
+<span class="text-primary font-bold text-headline-md">위험</span>
+</div>
+</div>
+</div>
+<!-- 24-Hour Operation Chart (Custom SVG Implementation) -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant p-gutter">
+<div class="flex justify-between items-center mb-8">
+<div>
+<h4 class="font-headline-md text-headline-md">24시간 활동 빈도</h4>
+<p class="text-body-md font-body-md text-on-surface-variant">지난 24시간 동안의 센서 감지 빈도</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary"></div>
+<span class="text-label-sm font-label-sm">현재</span>
+</div>
+<div class="flex items-center gap-2 text-on-surface-variant">
+<div class="w-3 h-3 rounded-full bg-surface-container-high"></div>
+<span class="text-label-sm font-label-sm">평균</span>
+</div>
+</div>
+</div>
+<!-- Bar Chart -->
+<div class="relative h-[240px] w-full flex items-end justify-between gap-1 group">
+<!-- Chart Grid Lines -->
+<div class="absolute inset-0 flex flex-col justify-between pointer-events-none opacity-20">
+<div class="border-t border-outline"></div>
+<div class="border-t border-outline"></div>
+<div class="border-t border-outline"></div>
+<div class="border-t border-outline"></div>
+</div>
+<!-- Bars -->
+<!-- Mock loop of bars -->
+<div class="flex-grow flex items-end justify-between gap-2 h-full">
+<div class="w-full bg-surface-container-high rounded-t h-[20%] relative group/bar">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[15%] transition-all chart-bar"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[15%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[5%]" style="height: 5%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[10%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[2%]" style="height: 2%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[10%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[3%]" style="height: 3%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[12%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[5%]" style="height: 5%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[15%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[8%]" style="height: 8%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[40%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[35%]" style="height: 35%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[65%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[75%]" style="height: 75%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[80%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[95%]" style="height: 95%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[70%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[60%]" style="height: 60%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[50%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[45%]" style="height: 45%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[40%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[30%]" style="height: 30%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[45%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[55%]" style="height: 55%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[60%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[70%]" style="height: 70%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[75%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[85%]" style="height: 85%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[85%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[65%]" style="height: 65%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[80%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[75%]" style="height: 75%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[70%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[80%]" style="height: 80%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[60%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[45%]" style="height: 45%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[50%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[35%]" style="height: 35%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[40%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[30%]" style="height: 30%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[30%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[25%]" style="height: 25%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[25%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[20%]" style="height: 20%"></div>
+</div>
+<div class="w-full bg-surface-container-high rounded-t h-[20%] relative">
+<div class="absolute bottom-0 w-full bg-primary rounded-t h-[10%]" style="height: 10%"></div>
+</div>
+</div>
+</div>
+<!-- Labels -->
+<div class="mt-4 flex justify-between text-label-sm font-label-sm text-on-surface-variant">
+<span class="">0시</span>
+<span class="">4시</span>
+<span class="">8시</span>
+<span class="">12시</span>
+<span class="">16시</span>
+<span class="">20시</span>
+<span class="">24시</span>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="flex gap-4">
+<button class="flex-grow flex items-center justify-center gap-2 bg-primary text-on-primary font-headline-md h-14 rounded-xl shadow-lg hover:brightness-110 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined">notifications_active</span>
+                            보호자 호출
+                        </button>
+<button class="flex-grow flex items-center justify-center gap-2 bg-surface-container-lowest border border-outline-variant text-on-surface font-headline-md h-14 rounded-xl shadow-sm hover:bg-surface-container-low transition-all">
+<span class="material-symbols-outlined">edit_square</span>
+                            상태 기록 작성
+                        </button>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Floating Action Button (Supressed as per logic for Detail screens, but kept hidden in DOM if needed) -->
+<div class="fixed bottom-margin right-margin hidden">
+<button class="w-16 h-16 bg-primary text-on-primary rounded-full shadow-2xl flex items-center justify-center">
+<span class="material-symbols-outlined text-4xl">add</span>
+</button>
+</div>
+<script>
+        // Simple micro-interaction for chart bars
+        document.querySelectorAll('.chart-bar').forEach(bar => {
+            bar.addEventListener('mouseenter', () => {
+                bar.parentElement.style.zIndex = '10';
+            });
+            bar.addEventListener('mouseleave', () => {
+                bar.parentElement.style.zIndex = '1';
+            });
+        });
+
+        // Theme sync logic (if any specific interactive logic is needed)
+        console.log("Dashboard loaded for User: 김ㅁㅁ");
+    </script>
+
+
+</body></html>
