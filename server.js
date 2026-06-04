@@ -39,6 +39,28 @@ app.post('/api/sensor/data', async (req, res) => {
       balanceScore: Number(balanceScore),
       batteryLevel: batteryLevel !== undefined ? Number(batteryLevel) : undefined
     });
+
+    // 3. IMMEDIATELY compute and broadcast the updated hourly chart data
+    //    (don't wait 12 hours for the scheduler — update the chart right now!)
+    try {
+      const aggregatedData = await googleSheetsDb.getHourlyAggregations(memberId);
+      broadcastToUi({
+        type: 'CHART_SYNC',
+        memberId,
+        data: aggregatedData,
+        latestTelemetry: {
+          stepCount: Number(stepCount),
+          leftPressure: Number(leftPressure),
+          rightPressure: Number(rightPressure),
+          balanceScore: Number(balanceScore)
+        },
+        intervalMs: 0,
+        mode: result.mode
+      });
+      console.log(`[Server] Live CHART_SYNC broadcast sent for member ${memberId}`);
+    } catch (err) {
+      console.error(`[Server] Live chart aggregation failed for ${memberId}:`, err.message);
+    }
     
     res.json({
       status: 'success',
@@ -103,6 +125,20 @@ app.post('/api/config/trigger-tick', async (req, res) => {
   res.json({ status: 'success', message: 'Aggregation and broadcast completed successfully' });
 });
 
+// Get current hourly activity data for a specific member (called by frontend on detail view open)
+app.get('/api/sensor/hourly/:memberId', async (req, res) => {
+  const memberId = decodeURIComponent(req.params.memberId);
+  try {
+    const hourlyData = await googleSheetsDb.getHourlyAggregations(memberId);
+    const latest = await googleSheetsDb.getLatestTelemetry(memberId);
+    console.log(`[Server] Hourly data fetched for ${memberId}:`, hourlyData);
+    res.json({ status: 'success', memberId, hourlyData, latestTelemetry: latest });
+  } catch (err) {
+    console.error(`[Server] Hourly fetch failed for ${memberId}:`, err.message);
+    res.status(500).json({ status: 'error', message: err.message });
+  }
+});
+
 // Create integrated HTTP server
 const server = http.createServer(app);
 
@@ -143,6 +179,7 @@ async function executeSyncAndBroadcast() {
   console.log('[Scheduler] Executing scheduled time-series aggregation from Google Sheets...');
   
   const memberIds = [
+    "#9999", // 아두이노 테스트 이용자
     "#7721", "#7722", "#7723", "#7724", 
     "#7725", "#7726", "#7727", "#7728",
     "#7729", "#7730", "#7731", "#7732",

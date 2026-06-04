@@ -808,8 +808,35 @@ function openDetailView(id) {
     balanceScore: m.status === 'danger' ? 72 : 100
   });
 
-  // Draw interactive graph
-  drawActivityChart(m);
+  // 서버에서 최신 hourly 집계 데이터를 가져와서 차트 렌더링
+  // (localStorage의 오래된 값 대신 항상 서버의 실제 데이터를 사용)
+  const encodedId = encodeURIComponent(m.id);
+  fetch(`/api/sensor/hourly/${encodedId}`)
+    .then(res => res.json())
+    .then(result => {
+      if (result.status === 'success' && Array.isArray(result.hourlyData)) {
+        // 서버 데이터로 덮어쓰기
+        const mIndex = members.findIndex(x => x.id === m.id);
+        if (mIndex !== -1) {
+          members[mIndex].hourlyActivity = result.hourlyData;
+          saveData();
+        }
+        // 서버에서 받은 데이터로 차트 그리기
+        drawActivityChart({ ...m, hourlyActivity: result.hourlyData });
+        // 최신 센서값도 업데이트
+        if (result.latestTelemetry) {
+          updateLiveSmartMatUi(result.latestTelemetry);
+        }
+        console.log(`[Detail] 서버에서 최신 hourly 데이터 로드 완료: ${m.id}`);
+      } else {
+        // 서버 데이터가 없으면(새 이용자 등) 기존 데이터로 렌더링
+        drawActivityChart(m);
+      }
+    })
+    .catch(() => {
+      // 서버 요청 실패 시 기존 데이터로 폴백
+      drawActivityChart(m);
+    });
 }
 
 // --- Transition Back to Member Grid View ---
@@ -848,6 +875,35 @@ document.addEventListener("DOMContentLoaded", () => {
   // Load data from local storage
   loadData();
   
+  // --- ADD ARDUINO TEST MEMBER ---
+  if (!members.find(m => m.id === "#9999")) {
+    members.unshift({
+      id: "#9999",
+      name: "아두이노 테스트",
+      age: 65,
+      gender: "공통",
+      address: "아두이노 연구실",
+      phone: "010-0000-0000",
+      status: "success",
+      progress: 0,
+      lastUsed: "방금 전",
+      avatarSeed: "arduino",
+      healthNotes: [
+        "아두이노 센서 실시간 연동 테스트용 계정",
+        "* 센서 감지 시 차트가 즉각 갱신됩니다."
+      ],
+      stats: { success: 10, warning: 0, danger: 0 },
+      history: [
+        { date: new Date().toISOString().split("T")[0].replace(/-/g, "."), status: "정상" }
+      ],
+      hourlyActivity: Array.from({length: 24}, () => 0),
+      batteryLevel: 100,
+      stepCount: 0
+    });
+    saveData();
+  }
+  // -------------------------------
+
   // Initial bento grid render
   renderGrid();
   
@@ -1212,63 +1268,50 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (payload.type === 'CHART_SYNC') {
           const { memberId, data, latestTelemetry } = payload;
+          console.log(`[WebSocket] CHART_SYNC received for ${memberId}:`, data);
           
-          // 1. Locate member in state array
           const mIndex = members.findIndex(m => m.id === memberId);
-          if (mIndex !== -1) {
-            // Update time-series data
+          if (mIndex !== -1 && Array.isArray(data)) {
+            // 서버에서 집계된 실제 데이터로 hourlyActivity 덮어쓰기
             members[mIndex].hourlyActivity = data;
-            
-            // Highlight activity update and calculate stats count on live array
-            const peakCount = data.reduce((acc, v) => acc + (v > 70 ? 1 : 0), 0);
-            members[mIndex].progress = Math.min(100, Math.round(data.reduce((a, b) => a + b, 0) / 10));
-            
             saveData();
-            
-            // 2. If this is the active Detail View member, REDRAW chart instantly!
+
+            // 현재 상세 페이지가 열려 있는 멤버라면 즉시 차트 재렌더링
             if (selectedMemberId === memberId) {
-              console.log(`[WebSocket] Live updating SVG chart for active member ${members[mIndex].name}`);
+              console.log(`[WebSocket] Redrawing chart for ${members[mIndex].name}`);
               drawActivityChart(members[mIndex]);
-              
-              // If latest telemetry is provided by scheduler batch, sync it
+
               if (latestTelemetry) {
                 updateLiveSmartMatUi(latestTelemetry);
               }
-              
-              // Flash dynamic status badge values
-              document.getElementById("stat-success-count").innerText = members[mIndex].history.filter(h => h.status === "정상").length;
-              
-              // Trigger slight micro-animation on chart SVG card to show visual update
-              const chartCard = document.getElementById("activity-chart").closest('.detail-card');
+
+              // 차트 카드 테두리 플래시
+              const chartCard = document.getElementById('activity-chart')?.closest('.detail-card');
               if (chartCard) {
-                chartCard.style.transform = 'scale(1.005)';
                 chartCard.style.borderColor = 'var(--color-primary)';
-                setTimeout(() => {
-                  chartCard.style.transform = 'scale(1)';
-                  chartCard.style.borderColor = 'var(--color-border)';
-                }, 400);
+                setTimeout(() => { chartCard.style.borderColor = 'var(--color-border)'; }, 600);
               }
-              
-              showToast(`${members[mIndex].name} 님의 실시간 센서 집계 데이터가 차트에 갱신되었습니다!`, 'success');
+
+              showToast(`${members[mIndex].name} 님의 차트가 갱신되었습니다!`, 'success');
             }
           }
         }
         
-        // Handle instantaneous real-time telemetry ticks for the gauge bars
+        // LIVE_SENSOR_TICK: 게이지(걸음수, 압력바) 즉시 업데이트만 처리
+        // 차트 업데이트는 서버가 즉시 보내는 CHART_SYNC가 담당합니다.
         if (payload.type === 'LIVE_SENSOR_TICK') {
-          const { memberId, stepCount, batteryLevel } = payload;
+          const { memberId, batteryLevel } = payload;
           
           const memberIndex = members.findIndex(m => m.id === memberId);
           if (memberIndex !== -1) {
-            if (stepCount !== undefined) members[memberIndex].stepCount = stepCount;
             if (batteryLevel !== undefined) members[memberIndex].batteryLevel = batteryLevel;
             saveData();
             renderGrid();
-          }
 
-          if (selectedMemberId === memberId) {
-            console.log(`[WebSocket] Live gauge tick received for active member: ${memberId}`);
-            updateLiveSmartMatUi(payload);
+            // 상세 페이지가 열려 있으면 게이지 UI 업데이트
+            if (selectedMemberId === memberId) {
+              updateLiveSmartMatUi(payload);
+            }
           }
         }
       } catch (err) {

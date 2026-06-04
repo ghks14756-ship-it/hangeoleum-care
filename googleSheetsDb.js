@@ -88,7 +88,7 @@ class GoogleSheetsDb {
         
         await this.sheetsApi.spreadsheets.values.append({
           spreadsheetId: this.spreadsheetId,
-          range: '시트1!A:F',
+          range: '센서데이터!A:F',
           valueInputOption: 'USER_ENTERED',
           insertDataOption: 'INSERT_ROWS',
           resource: {
@@ -152,7 +152,7 @@ class GoogleSheetsDb {
         console.log(`[GoogleSheetsDb][v4 API] Reading rows...`);
         const response = await this.sheetsApi.spreadsheets.values.get({
           spreadsheetId: this.spreadsheetId,
-          range: '시트1!A:F'
+          range: '센서데이터!A:F'
         });
         
         const rows = response.data.values;
@@ -221,17 +221,14 @@ class GoogleSheetsDb {
     rawData.forEach(row => {
       const rowTime = new Date(row.timestamp);
       if (rowTime >= cutoffTime) {
-        const hour = rowTime.getHours(); // 0 - 23
+        // KST 시간으로 변환 (UTC+9)
+        const hour = (rowTime.getUTCHours() + 9) % 24;
         hourlyBins[hour] += row.stepCount || 1;
       }
     });
     
-    const result = hourlyBins.map((steps, index) => {
-      if (steps > 0) {
-        return Math.min(100, Math.round(steps));
-      } else {
-        return 5 + (index >= 8 && index <= 22 ? Math.floor(Math.random() * 8) + 5 : Math.floor(Math.random() * 3));
-      }
+    const result = hourlyBins.map((steps) => {
+      return steps > 0 ? Math.min(100, Math.round(steps)) : 0;
     });
     
     return result;
