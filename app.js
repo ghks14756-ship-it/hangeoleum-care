@@ -1,6 +1,28 @@
 // --- Default Mock Members Data ---
 const DEFAULT_MEMBERS = [
   {
+    id: "#9999",
+    name: "아두이노 테스트",
+    age: 99,
+    gender: "기기",
+    address: "한걸음케어 개발 연구소",
+    phone: "010-9999-9999",
+    status: "success",
+    progress: 100,
+    lastUsed: "방금 전",
+    avatarSeed: "arduino",
+    healthNotes: [
+      "아두이노 하드웨어 연동 테스트용 가상 계정입니다.",
+      "센서 신호 수신 상태 모니터링",
+      "* 센서 테스트 시 이곳의 데이터가 변동됩니다."
+    ],
+    stats: { success: 99, warning: 0, danger: 0 },
+    history: [
+      { date: "2026.06.07", status: "정상" }
+    ],
+    hourlyActivity: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+  },
+  {
     id: "#7721",
     name: "김동욱",
     age: 76,
@@ -428,6 +450,11 @@ function loadData() {
   if (stored) {
     try {
       members = JSON.parse(stored);
+      // Force inject Arduino test member if not present in localStorage
+      if (!members.find(m => m.id === "#9999")) {
+        const arduinoMember = DEFAULT_MEMBERS.find(m => m.id === "#9999");
+        if (arduinoMember) members.unshift(arduinoMember);
+      }
     } catch (e) {
       console.error("데이터 파싱 에러. 기본 모의 데이터로 초기화합니다.", e);
       members = DEFAULT_MEMBERS;
@@ -596,16 +623,20 @@ function drawActivityChart(member) {
   const chartHeight = height - paddingTop - paddingBottom;
   
   const data = member.hourlyActivity || [10, 5, 2, 1, 3, 8, 25, 45, 60, 50, 42, 30, 35, 45, 55, 60, 58, 62, 70, 50, 35, 24, 15, 8];
-  
-  // Baseline static average data representing regular historical average (from DESIGN.md)
-  const averageData = [12, 6, 3, 2, 4, 10, 20, 48, 65, 55, 40, 32, 38, 42, 50, 52, 48, 55, 60, 45, 30, 22, 14, 8];
-  
-  const maxVal = 100; // Let's anchor the grid max at 100 frequency for consistent visual comparison
-  
   const barCount = data.length;
-  const gap = 12; // Gap between different hour blocks
+  // If we have 60 items (minutes), gap should be smaller
+  const gap = barCount > 24 ? 2 : 12; 
   const groupWidth = chartWidth / barCount;
-  const barWidth = (groupWidth - gap) / 2; // Split into current (primary red) and average (gray) bars
+  
+  // Create an empty average array if data length is different from 24
+  const avgData = barCount === 24 ? 
+    [12, 6, 3, 2, 4, 10, 20, 48, 65, 55, 40, 32, 38, 42, 50, 52, 48, 55, 60, 45, 30, 22, 14, 8] : 
+    new Array(barCount).fill(0);
+    
+  const maxVal = 100; // Let's anchor the grid max at 100 frequency for consistent visual comparison
+    
+  // If average is 0, we can just use the full width for the current bar, or keep dual-bar design with 0 height
+  const barWidth = (groupWidth - gap) / 2;
   
   // 1. Draw horizontal grid lines
   const gridLinesCount = 4;
@@ -628,7 +659,7 @@ function drawActivityChart(member) {
     const xPos = paddingLeft + (hour * groupWidth) + (gap / 2);
     
     // Average Bar Height
-    const avgVal = averageData[hour];
+    const avgVal = avgData[hour];
     const avgHeight = (avgVal / maxVal) * chartHeight;
     const avgY = paddingTop + chartHeight - avgHeight;
     
@@ -669,7 +700,8 @@ function drawActivityChart(member) {
       const val = e.target.getAttribute("data-val");
       const hr = e.target.getAttribute("data-hour");
       
-      tooltip.innerText = `${hr}시: 현재 ${val}회 (평균 ${averageData[hr]}회)`;
+      const timeUnit = barCount === 60 ? "분" : "시";
+      tooltip.innerText = `${hr}${timeUnit}: 현재 ${val}회 (평균 ${avgData[hr]}회)`;
       
       // Calculate tooltip position
       const rect = e.target.getBoundingClientRect();
